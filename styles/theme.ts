@@ -11,12 +11,6 @@ const theme = createTheme({
       main: "#00FF85", // green
       light: "rgba(0, 255, 133, 0.3)",
     },
-    districts: {
-      main: "#000042", // blue
-    },
-    charts: {
-      main: "green",
-    },
     text: {
       primary: "#000042", // blue
       secondary: "#666666",
@@ -37,18 +31,13 @@ const theme = createTheme({
       fontWeight: 300,
       fontFamily: "'Cormorant Infant'",
     },
-    body1: {
+    body: {
       fontSize: "1.1rem",
       fontWeight: 400,
       fontFamily: "'Avenir'",
       "@media (max-width:600px)": {
         fontSize: "0.8rem",
       },
-    },
-    body2: {
-      fontSize: "1.2rem",
-      fontWeight: 500,
-      fontFamily: "'Avenir'",
     },
   },
 });
