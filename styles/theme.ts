@@ -31,14 +31,14 @@ const theme = createTheme({
       fontWeight: 300,
       fontFamily: "'Cormorant Infant'",
     },
-    body: {
+    /**body: {
       fontSize: "1.1rem",
       fontWeight: 400,
       fontFamily: "'Avenir'",
       "@media (max-width:600px)": {
         fontSize: "0.8rem",
       },
-    },
+    },**/
   },
 });
 
