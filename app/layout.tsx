@@ -1,6 +1,6 @@
 "use client";
 
-import theme from "../styles/theme.ts";
+import theme from "../styles/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
