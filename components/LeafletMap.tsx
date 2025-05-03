@@ -3,8 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Scrollama, Step, StepEnterEvent } from 'react-scrollama';
 import L from 'leaflet';
+import { Scrollama as Scrollama_, Step as Step_ } from "react-scrollama";
+
+const Step = Step_<{ index: number }>;
+const Scrollama = Scrollama_<{ index: number }>;
 
 // Standard-Marker-Icons in React/Leaflet korrekt laden
 // @ts-ignore
