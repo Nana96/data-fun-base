@@ -1,7 +1,9 @@
 import {type ReactNode} from "react";
 
-export type DetailTypes = {
+type DetailTypes = {
 title: string;
 chart: ReactNode;
 code: ReactNode;
 }
+
+export default DetailTypes;
