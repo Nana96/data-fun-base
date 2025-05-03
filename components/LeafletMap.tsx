@@ -1,13 +1,12 @@
 "use client";
 
-// src/components/LeafletScroller.jsx
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Scrollama, Step } from 'react-scrollama';
+import { Scrollama, Step, StepEnterEvent } from 'react-scrollama';
 import L from 'leaflet';
 
-// Fix: Standard-Marker-Icons in React/Leaflet korrekt laden
+// Standard-Marker-Icons in React/Leaflet korrekt laden
 // @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -16,28 +15,40 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Positionen für Scroll-Schritte
-const steps = [
+// Typisierung für die Schritte
+interface StepType {
+  id: number;
+  coords: [number, number];
+  label: string;
+}
+
+// Beispiel-Schritte
+const steps: StepType[] = [
   { id: 0, coords: [52.52, 13.405], label: 'Berlin' },
   { id: 1, coords: [48.1372, 11.5756], label: 'München' },
   { id: 2, coords: [53.5511, 9.9937], label: 'Hamburg' },
 ];
 
-// Helper-Komponente zur Steuerung der Karte
-const MapFlyTo = ({ coords }) => {
+// Typisierung für die MapFlyTo-Komponente
+interface MapFlyToProps {
+  coords: [number, number];
+}
+
+const MapFlyTo = ({ coords }: MapFlyToProps) => {
   const map = useMap();
   useEffect(() => {
     if (coords) {
-      map.flyTo(coords, 10);
+      map.flyTo(coords, 10); // Karte auf die Koordinaten zoomen
     }
   }, [coords, map]);
   return null;
 };
 
 const LeafletScroller = () => {
-  const [currentCoords, setCurrentCoords] = useState(steps[0].coords);
+  const [currentCoords, setCurrentCoords] = useState<[number, number]>(steps[0].coords);
 
-  const onStepEnter = ({ data }) => {
+  // Scrollama Schritt-Event
+  const onStepEnter = ({ data }: StepEnterEvent) => {
     const step = steps.find((s) => s.id === data);
     if (step) {
       setCurrentCoords(step.coords);
@@ -46,7 +57,7 @@ const LeafletScroller = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      {/* Scroll-Teil */}
+      {/* Scroll-Panel */}
       <div style={{ width: '40%', height: '100vh', overflowY: 'scroll' }}>
         <Scrollama onStepEnter={onStepEnter} offset={0.5}>
           {steps.map((step) => (
@@ -60,7 +71,7 @@ const LeafletScroller = () => {
         </Scrollama>
       </div>
 
-      {/* Karten-Teil */}
+      {/* Karte */}
       <div style={{ width: '60%', height: '100vh' }}>
         <MapContainer
           center={currentCoords}
@@ -73,6 +84,8 @@ const LeafletScroller = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <MapFlyTo coords={currentCoords} />
+
+          {/* Marker */}
           {steps.map((step, i) => (
             <Marker key={i} position={step.coords}>
               <Popup>{step.label}</Popup>
@@ -85,3 +98,5 @@ const LeafletScroller = () => {
 };
 
 export default LeafletScroller;
+
+
