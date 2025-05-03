@@ -17,7 +17,7 @@ export default function Home() {
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
         <h1>DataFunBase</h1>
-        <a href={"/organic_shapes_d3"}>Creating organic shapes with d3.js</a>
+        <a href={"detail/organic_shapes_d3"}>Creating organic shapes with d3.js</a>
       </main>
     </>
   );
