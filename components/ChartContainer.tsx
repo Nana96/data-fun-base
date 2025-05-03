@@ -3,7 +3,7 @@
 import {Box, useTheme} from "@mui/material";
 import DetailTypes from "@/types/types";
 
-export const ChartContainer = ({chart}: DetailTypes) => {
+export const ChartContainer = ({ chart }: Pick<DetailTypes, 'chart'>) => {
 const theme = useTheme();
 
  return (

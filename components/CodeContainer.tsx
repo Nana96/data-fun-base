@@ -3,7 +3,7 @@
 import {Box, Typography, useTheme} from "@mui/material";
 import DetailTypes from "@/types/types";
 
-export const CodeContainer = ({code}: DetailTypes) => {
+export const CodeContainer = ({ code }: Pick<DetailTypes, 'code'>) => {
 const theme = useTheme();
 
 return (
