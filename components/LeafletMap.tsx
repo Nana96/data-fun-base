@@ -30,7 +30,7 @@ const MapFlyTo = ({ coords }: MapFlyToProps) => {
   const map = useMap();
   useEffect(() => {
     if (coords) {
-      map.flyTo(coords, 10); // Karte auf die Koordinaten zoomen
+      map.flyTo(coords, 10); // zoom to coordinates
     }
   }, [coords, map]);
   return null;
@@ -41,7 +41,7 @@ export const LeafletScroller = () => {
 
   // Scrollama step event
   const onStepEnter = ({ data }: { data: StepData }) => {
-    const step = steps.find((s) => s.id === data);
+    const step = steps.find((s) => s.id === data.index);
     if (step) {
       setCurrentCoords(step.coords);
     }
