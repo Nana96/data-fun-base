@@ -12,7 +12,7 @@ const theme = useTheme();
     sx={{
         background: theme.palette.secondary.main,
         width: "100%",
-        height: "20vh",
+        height: "100%",
         p: "4rem",
     }}
     >

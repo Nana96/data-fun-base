@@ -4,12 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { Scrollama as Scrollama_, Step as Step_ } from "react-scrollama";
+import {StepType, MapFlyToProps} from "@/types/types"
+import { Scrollama as Scrollama_, Step as Step_, StepEnterEvent as StepEnterEvent_ } from "react-scrollama";
 
 const Step = Step_<{ index: number }>;
 const Scrollama = Scrollama_<{ index: number }>;
+const StepEnterEvent = StepEnterEvent_<{ index: number }>;
 
-// Standard-Marker-Icons in React/Leaflet korrekt laden
+// load Standard-Marker-Icons in React/Leaflet
 // @ts-ignore
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -18,24 +20,12 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// Typisierung für die Schritte
-interface StepType {
-  id: number;
-  coords: [number, number];
-  label: string;
-}
 
-// Beispiel-Schritte
 const steps: StepType[] = [
   { id: 0, coords: [52.52, 13.405], label: 'Berlin' },
   { id: 1, coords: [48.1372, 11.5756], label: 'München' },
   { id: 2, coords: [53.5511, 9.9937], label: 'Hamburg' },
 ];
-
-// Typisierung für die MapFlyTo-Komponente
-interface MapFlyToProps {
-  coords: [number, number];
-}
 
 const MapFlyTo = ({ coords }: MapFlyToProps) => {
   const map = useMap();
@@ -47,10 +37,10 @@ const MapFlyTo = ({ coords }: MapFlyToProps) => {
   return null;
 };
 
-const LeafletScroller = () => {
+export const LeafletScroller = () => {
   const [currentCoords, setCurrentCoords] = useState<[number, number]>(steps[0].coords);
 
-  // Scrollama Schritt-Event
+  // Scrollama step event
   const onStepEnter = ({ data }: StepEnterEvent) => {
     const step = steps.find((s) => s.id === data);
     if (step) {
@@ -74,7 +64,7 @@ const LeafletScroller = () => {
         </Scrollama>
       </div>
 
-      {/* Karte */}
+      {/* Map */}
       <div style={{ width: '60%', height: '100vh' }}>
         <MapContainer
           center={currentCoords}
@@ -100,6 +90,5 @@ const LeafletScroller = () => {
   );
 };
 
-export default LeafletScroller;
 
 

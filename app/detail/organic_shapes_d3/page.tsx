@@ -2,7 +2,7 @@
 import React from "react";
 import Head from "next/head";
 import {DetailsLayout} from "@/components/DetailsLayout";
-import LeafletScroller from "@/components/LeafletMap";
+import {LeafletScroller} from "@/components/LeafletMap";
 
 const Page = () => {
   return (
