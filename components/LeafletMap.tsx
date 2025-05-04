@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import {StepData, StepType, MapFlyToProps} from "@/types/types"
 import { Scrollama as Scrollama_, Step as Step_ } from "react-scrollama";
+import {Box, useTheme} from "@mui/material";
 
 const Step = Step_<{ index: number }>;
 const Scrollama = Scrollama_<{ index: number }>;
@@ -48,23 +49,23 @@ export const LeafletScroller = () => {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }}>
       {/* Scroll-Panel */}
-      <div style={{ width: '40%', height: '100vh', overflowY: 'scroll' }}>
+      <Box sx={{ width: '40%', height: '100vh', overflowY: 'scroll' }}>
         <Scrollama onStepEnter={onStepEnter} offset={0.5}>
           {steps.map((step) => (
             <Step data={{step.id}} key={step.id}>
-              <div style={{ margin: '300px 0', padding: '2rem', background: '#eee' }}>
+              <Box sx={{ margin: '300px 0', padding: '2rem', background: '#eee' }}>
                 <h2>{step.label}</h2>
                 <p>Scroll zu {step.label}</p>
-              </div>
+              </Box>
             </Step>
           ))}
         </Scrollama>
-      </div>
+      </Box>
 
       {/* Map */}
-      <div style={{ width: '60%', height: '100vh' }}>
+      <Box sx={{ width: '60%', height: '100vh' }}>
         <MapContainer
           center={currentCoords}
           zoom={10}
@@ -84,8 +85,8 @@ export const LeafletScroller = () => {
             </Marker>
           ))}
         </MapContainer>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
