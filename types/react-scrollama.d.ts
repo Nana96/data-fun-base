@@ -1,4 +1,5 @@
 // react-scrollama.d.ts
+/// <reference types="react" />
 declare module "react-scrollama" {
   // Type definitions for Scrollama components
 
