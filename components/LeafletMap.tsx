@@ -53,7 +53,7 @@ export const LeafletScroller = () => {
       <div style={{ width: '40%', height: '100vh', overflowY: 'scroll' }}>
         <Scrollama onStepEnter={onStepEnter} offset={0.5}>
           {steps.map((step) => (
-            <Step data={step.id} key={step.id}>
+            <Step data={{step.id}} key={step.id}>
               <div style={{ margin: '300px 0', padding: '2rem', background: '#eee' }}>
                 <h2>{step.label}</h2>
                 <p>Scroll zu {step.label}</p>
