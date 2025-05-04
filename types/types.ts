@@ -19,4 +19,6 @@ export interface MapFlyToProps {
   coords: [number, number];
 }
 
+export type StepData = { index: number };
+
 export default DetailTypes;

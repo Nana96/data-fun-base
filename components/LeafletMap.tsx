@@ -4,12 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import {StepType, MapFlyToProps} from "@/types/types"
-import { Scrollama as Scrollama_, Step as Step_, StepEnterEvent as StepEnterEvent_ } from "react-scrollama";
+import {StepData, StepType, MapFlyToProps} from "@/types/types"
+import { Scrollama as Scrollama_, Step as Step_ } from "react-scrollama";
 
 const Step = Step_<{ index: number }>;
 const Scrollama = Scrollama_<{ index: number }>;
-const StepEnterEvent = StepEnterEvent_<{ index: number }>;
 
 // load Standard-Marker-Icons in React/Leaflet
 // @ts-ignore
@@ -41,7 +40,7 @@ export const LeafletScroller = () => {
   const [currentCoords, setCurrentCoords] = useState<[number, number]>(steps[0].coords);
 
   // Scrollama step event
-  const onStepEnter = ({ data }: StepEnterEvent) => {
+  const onStepEnter = ({ data }: { data: StepData }) => {
     const step = steps.find((s) => s.id === data);
     if (step) {
       setCurrentCoords(step.coords);
