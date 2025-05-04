@@ -4,7 +4,12 @@
 import React from "react";
 import Head from "next/head";
 import {DetailsLayout} from "@/components/DetailsLayout";
-import {LeafletScroller} from "@/components/LeafletMap";
+import dynamic from "next/dynamic";
+
+const LeafletScroller = dynamic(() => import("@/components/LeafletMap").then(mod => mod.LeafletScroller), {
+  ssr: false,
+});
+
 
 const Page = () => {
   return (
