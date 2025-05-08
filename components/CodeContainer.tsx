@@ -10,7 +10,8 @@ return (
     <Box
     sx={{
         background: theme.palette.primary.main,
-        p: "50px",
+        minHeight: "100vh",
+        p: 4
     }}
     >
         <Typography variant="body1">

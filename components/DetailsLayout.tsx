@@ -9,7 +9,7 @@ import DetailTypes from "@/types/types";
 export const DetailsLayout = ({title, chart, code}: DetailTypes) => {
 
 return (
-    <Box>
+    <Box sx={{ width: "100%", position: "relative" }}>
         <DetailTitle title={title} />
         <ChartContainer chart={chart} />
         <CodeContainer code={code} />

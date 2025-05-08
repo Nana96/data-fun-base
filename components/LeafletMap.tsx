@@ -48,27 +48,30 @@ export const LeafletScroller = () => {
     }
   };
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      {/* Scroll-Panel */}
-      <Box sx={{ width: '40%', height: '100vh', overflowY: 'scroll' }}>
-        <Scrollama onStepEnter={onStepEnter} offset={0.5}>
-          {steps.map((step) => (
-            <Step data={{ index: step.id }} key={step.id}>
-              <Box sx={{ margin: '300px 0', padding: '2rem', background: '#eee' }}>
-                <h2>{step.label}</h2>
-                <p>Scroll zu {step.label}</p>
-              </Box>
-            </Step>
-          ))}
-        </Scrollama>
-      </Box>
+  const onStepExit = ({ data }: { data: StepData }) => {
+      if (data.index === 0) {
+        setCurrentCoords(undefined);
+      }
+      if (data.index === steps.length) {
+        setCurrentCoords(undefined);
+      }
+    };
 
+  return (
+   <Box sx={{ position: "relative", minHeight: `${steps.length * 100}vh` }}>
       {/* Map */}
-      <Box sx={{ width: '60%', height: '100vh' }}>
+      <Box
+            sx={{
+              position: "sticky",
+              top: 0,
+              height: "100vh",
+              width: "100%",
+              zIndex: 0,
+            }}
+          >
         <MapContainer
           center={currentCoords}
-          zoom={10}
+          zoom={20}
           style={{ height: '100%', width: '100%' }}
           scrollWheelZoom={false}
         >
@@ -77,8 +80,6 @@ export const LeafletScroller = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <MapFlyTo coords={currentCoords} />
-
-          {/* Marker */}
           {steps.map((step, i) => (
             <Marker key={i} position={step.coords}>
               <Popup>{step.label}</Popup>
@@ -86,6 +87,39 @@ export const LeafletScroller = () => {
           ))}
         </MapContainer>
       </Box>
+
+      {/* Scroll-Panel */}
+      <Box sx={{ position: "relative", zIndex: 1 }}>
+        <Scrollama onStepEnter={onStepEnter} offset={0.5}  onStepExit={onStepExit}>
+          {steps.map((step) => (
+            <Step data={{ index: step.id }} key={step.id}>
+              <Box
+                          sx={{
+                            height: "100vh",
+                            zIndex: 100,
+                            display: "flex",
+                            justifyContent: "left",
+                            alignItems: "center",
+                            position: "relative",
+                            px:  "20vw" ,
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              backgroundColor: "rgba(184, 169, 163, 0.7)",
+                              margin: '300px 0',
+                              width: '40%',
+                              p: '2rem',
+                            }}
+                          >
+                <h2>{step.label}</h2>
+                <p>Scroll zu {step.label}</p>
+              </Box>
+             </Box>
+            </Step>
+          ))}
+        </Scrollama>
+</Box>
     </Box>
   );
 };

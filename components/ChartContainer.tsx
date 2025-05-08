@@ -10,10 +10,11 @@ const theme = useTheme();
 
     <Box
     sx={{
-        background: theme.palette.secondary.main,
+        background: theme.palette.primary.main,
+        border: 1,
+        borderColor: theme.palette.text.primary,
         width: "100%",
         height: "100%",
-        p: "4rem",
     }}
     >
         {chart}

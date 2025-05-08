@@ -7,12 +7,11 @@ export const DetailTitle = ({ title }: Pick<DetailTypes, 'title'>) => {
 const theme = useTheme();
 
 return (
-    <Box
-    sx={{
+    <Box sx={{
         background: theme.palette.primary.main,
-        p: "50px",
-    }}
-    >
+        minHeight: "50vh",
+        p: 4,
+    }}>
         <Typography variant="h1">
         {title}
         </Typography>
