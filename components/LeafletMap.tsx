@@ -38,7 +38,7 @@ const MapFlyTo = ({ coords }: MapFlyToProps) => {
 };
 
 export const LeafletScroller = () => {
-  const [currentCoords, setCurrentCoords] = useState<[number, number]>(steps[0].coords);
+  const [currentCoords, setCurrentCoords] = useState<[number, number] | undefined>(steps[0].coords);
 
   // Scrollama step event
   const onStepEnter = ({ data }: { data: StepData }) => {
@@ -70,7 +70,7 @@ export const LeafletScroller = () => {
             }}
           >
         <MapContainer
-          center={currentCoords}
+          center={currentCoords ?? [0, 0]}
           zoom={20}
           style={{ height: '100%', width: '100%' }}
           scrollWheelZoom={false}
@@ -79,7 +79,7 @@ export const LeafletScroller = () => {
             attribution='© OpenStreetMap-Mitwirkende'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <MapFlyTo coords={currentCoords} />
+          {currentCoords && <MapFlyTo coords={currentCoords} />}
           {steps.map((step, i) => (
             <Marker key={i} position={step.coords}>
               <Popup>{step.label}</Popup>

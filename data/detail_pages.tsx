@@ -1,3 +1,4 @@
+"use client"
 import dynamic from "next/dynamic";
 
 const LeafletScroller = dynamic(() => import("@/components/LeafletMap").then(m => m.LeafletScroller), { ssr: false });

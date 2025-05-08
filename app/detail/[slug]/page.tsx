@@ -1,18 +1,23 @@
-"use client";
 
-import React from "react";
 import { pages } from "@/data/detail_pages";
 import { notFound } from "next/navigation";
 import { DetailsLayout } from "@/components/DetailsLayout";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {Box, Typography, useTheme} from "@mui/material";
+import {Typography} from "@mui/material";
 import Link from "next/link";
+import { use } from "react";
+import { useParams } from "next/navigation";
 
-export default function DetailPage(props: any) {
-  const { slug } = React.use(props.params);
-  const theme = useTheme();
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>
+}
 
+export default async function DetailPage({ params }: PageProps) {
+  const { slug } = await params;
   const page = pages.find((p) => p.slug === slug);
+
   if (!page) return notFound();
 
   return (
