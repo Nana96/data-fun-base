@@ -71,7 +71,7 @@ export const LeafletScroller = () => {
           >
         <MapContainer
           center={currentCoords ?? [0, 0]}
-          zoom={20}
+          zoom={10}
           style={{ height: '100%', width: '100%' }}
           scrollWheelZoom={false}
         >

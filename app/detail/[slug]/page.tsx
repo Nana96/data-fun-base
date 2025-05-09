@@ -1,3 +1,4 @@
+"use client"
 
 import { pages } from "@/data/detail_pages";
 import { notFound } from "next/navigation";
