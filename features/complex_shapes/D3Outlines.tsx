@@ -9,10 +9,8 @@ import {
   GeoPermissibleObjects,
 } from "d3-geo";
 
-const outline_count = [3000, 6000, 8000];
+const scales = [ 1, 1.0824334978388523, 1.1648669956777045, 1.2473004935165568, 1.3297339913554092, 1.4121674891942613, 1.4946009870331136, 1.577034484871966 ];
 const coords = districtJson.features[0]; //.geometry.coordinates[0];
-
-console.log(coords)
 
 export const D3Outlines = () => {
 
@@ -59,19 +57,25 @@ return (
     layout
     transition={{duration:0.5, ease: "easeInOut"}}>
         <svg
-                viewBox="0 0 750 400"
+                viewBox="0 0 800 400"
                 overflow="visible"
               >
                 <g>
+                  {scales.map((scale, index) => (
                       <path
+                       key={index}
                         d={
                           pathGenerator(coords as GeoPermissibleObjects) ??
                           "M0,0"
                         }
-                        fill={"red"}
-                        stroke={"blue"}
+                         fill={index === 0 ? "darkblue" : "none"}
+                        stroke={"darkblue"}
                         strokeWidth={1.2}
+                         transform={`translate(${600 / 2}, ${
+                                          400 / 2
+                                        }) scale(${scale}) translate(${-600 / 2}, ${-400 / 2})`}
                       />
+                        ))}
                 </g>
               </svg>
          </motion.div>
