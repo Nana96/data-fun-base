@@ -13,7 +13,7 @@ const projection = geoMercator()
   .translate([0, 0]); // Wichtig: wir nutzen x/y direkt
 
 const projectedPoints = coords.map((coord) =>
-  projection(coord) as [number, number]
+  projection(coord as [number, number]) as [number, number]
 );
 
 // Wert für Extrusion
