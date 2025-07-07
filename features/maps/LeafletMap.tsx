@@ -7,6 +7,7 @@ import L from 'leaflet';
 import {StepData, StepType, MapFlyToProps} from "@/types/types"
 import { Scrollama as Scrollama_, Step as Step_ } from "react-scrollama";
 import Box from '@mui/material/Box';
+import {MapFlyTo} from './MapFlyTo';
 
 const Step = Step_<{ index: number }>;
 const Scrollama = Scrollama_<{ index: number }>;
@@ -27,15 +28,7 @@ const steps: StepType[] = [
   { id: 2, coords: [53.5511, 9.9937], label: 'Hamburg' },
 ];
 
-const MapFlyTo = ({ coords }: MapFlyToProps) => {
-  const map = useMap();
-  useEffect(() => {
-    if (coords) {
-      map.flyTo(coords, 10); // zoom to coordinates
-    }
-  }, [coords, map]);
-  return null;
-};
+
 
 export const LeafletScroller = () => {
   const [currentCoords, setCurrentCoords] = useState<[number, number] | undefined>(steps[0].coords);

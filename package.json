@@ -19,6 +19,8 @@
     "@react-three/fiber": "^9.1.4",
     "d3-geo": "^3.1.1",
     "framer-motion": "^12.10.5",
+    "georaster": "^1.6.0",
+    "georaster-layer-for-leaflet": "^3.10.0",
     "leaflet": "^1.9.4",
     "next": "15.3.1",
     "react": "^19.0.0",
