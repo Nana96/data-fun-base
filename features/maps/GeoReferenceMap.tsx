@@ -8,6 +8,10 @@ import GeoRasterLayer from "georaster-layer-for-leaflet";
 import parseGeoraster from "georaster";
 import { useEffect, useRef, useState } from "react";
 import { Scrollama, Step } from "react-scrollama";
+import paths from "@/data/paths.json";
+import "leaflet.polyline.snakeanim/L.Polyline.SnakeAnim.js";
+import type { Feature, FeatureCollection } from "geojson";
+
 
 const points: [number, number][] = [
   [15.2993, 74.1240], // Goa
@@ -23,8 +27,12 @@ const steps = [
 
 export const RasterMap = () => {
   const mapRef = useRef<L.Map | null>(null);
-  const polylineRef = useRef<L.Polyline | null>(null);
+  const [mapLoaded, setMapLoaded] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
+
+  const pathLayerRefs = useRef<L.GeoJSON[]>([]);
+  const markerRefs = useRef<L.CircleMarker[]>([]);
+  const prevStepRef = useRef<number>(stepIndex);
 
   useEffect(() => {
     const initMap = async () => {
@@ -46,23 +54,58 @@ export const RasterMap = () => {
       });
 
       layer.addTo(map);
+      map.fitBounds(layer.getBounds());
+        setMapLoaded(true);
 
-      const polyline = L.polyline([points[0]], { color: "red", weight: 4 }).addTo(map);
-      polylineRef.current = polyline;
     };
 
     if (typeof window !== "undefined") initMap();
   }, []);
 
-  // Update Pfad und FlyTo beim Scrollen
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map) return;
+ // Update Map when stepIndex changes
+   useEffect(() => {
+     if (!mapRef.current || !mapLoaded) return;
 
-    const path = points.slice(0, stepIndex + 1);
-    polylineRef.current?.setLatLngs(path);
-    map.flyTo(points[stepIndex], 7, { duration: 2 });
-  }, [stepIndex]);
+     const map = mapRef.current;
+
+     const direction = stepIndex > prevStepRef.current ? "down" : "up";
+
+     // Fly to current point
+     const currentStep = steps[stepIndex];
+     map.flyTo(currentStep.coords, 7, { duration: 1.5 });
+
+     // Remove all markers and paths first
+     markerRefs.current.forEach((marker) => map.removeLayer(marker));
+     markerRefs.current = [];
+
+     pathLayerRefs.current.forEach((layer) => map.removeLayer(layer));
+     pathLayerRefs.current = [];
+
+     // Add all markers up to current step
+     for (let i = 0; i <= stepIndex; i++) {
+       const circle = L.circleMarker(steps[i].coords, {
+         radius: 8,
+         color: "black",
+         fillColor: "red",
+         fillOpacity: 0.8,
+       });
+       circle.addTo(map);
+       markerRefs.current.push(circle);
+     }
+
+     // Add all path layers up to stepIndex - 1
+     const featuresToShow = paths.features.slice(0, stepIndex);
+     featuresToShow.forEach((feature) => {
+       const geoJsonLayer = L.geoJSON(feature as GeoJSON.Feature, {
+         style: { color: "red", weight: 4 },
+       });
+       geoJsonLayer.addTo(map);
+        if (direction === "down") {
+       (geoJsonLayer as any).snakeIn();
+       }
+       pathLayerRefs.current.push(geoJsonLayer);
+     });
+   }, [stepIndex, mapLoaded]);
 
   return (
     <div style={{ position: "relative", height: `${steps.length * 100}vh` }}>
