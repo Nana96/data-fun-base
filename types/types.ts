@@ -2,7 +2,8 @@ import {type ReactNode} from "react";
 
 // detail layout types
 type DetailTypes = {
-title: string;
+title: ReactNode;
+info: ReactNode;
 chart: ReactNode;
 code: ReactNode;
 }

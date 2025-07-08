@@ -6,15 +6,22 @@ import DetailTypes from "@/types/types";
 export const DetailTitle = ({ title }: Pick<DetailTypes, 'title'>) => {
 const theme = useTheme();
 
-return (
-    <Box sx={{
+ const [toptitle, description] = title;
+
+  return (
+    <Box
+      sx={{
         background: theme.palette.primary.main,
-        minHeight: "50vh",
+        minHeight: "10vh",
         p: 4,
-    }}>
-        <Typography variant="h1">
-        {title}
-        </Typography>
+      }}
+    >
+      <Typography variant="h4" gutterBottom>
+        {toptitle}
+      </Typography>
+      <Typography variant="body1">
+        {description}
+      </Typography>
     </Box>
-)
-}
+  );
+};

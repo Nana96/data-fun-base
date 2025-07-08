@@ -21,7 +21,7 @@ export default function Home() {
         <h1>DataFunBase</h1>
        {pages.map((page) => (
                <div key={page.slug}>
-                 <Link href={`/detail/${page.slug}`}>{page.title}</Link>
+                 <Link href={`/detail/${page.slug}`}>{page.title[0]}</Link>
                </div>
              ))}
       </main>

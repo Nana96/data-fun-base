@@ -29,6 +29,7 @@ export default async function DetailPage({ params }: PageProps) {
          </Link>
          <DetailsLayout
            title={page.title}
+           info={page.info}
            chart={page.chart}
            code={page.code}
          />
