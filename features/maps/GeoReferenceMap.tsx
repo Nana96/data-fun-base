@@ -2,14 +2,9 @@
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-// @ts-ignore
-import GeoRasterLayer from "georaster-layer-for-leaflet";
-// @ts-ignore
-import parseGeoraster from "georaster";
 import { useEffect, useRef, useState } from "react";
 import { Scrollama, Step } from "react-scrollama";
 import paths from "@/data/paths.json";
-import "leaflet.polyline.snakeanim/L.Polyline.SnakeAnim.js";
 import type { Feature, FeatureCollection } from "geojson";
 
 
@@ -35,40 +30,39 @@ export const RasterMap = () => {
   const prevStepRef = useRef<number>(stepIndex);
 
   useEffect(() => {
-    const initMap = async () => {
-      const map = L.map("map", {
-        center: points[0],
-        zoom: 7,
-        zoomControl: false,
-      });
-      mapRef.current = map;
+    const loadMap = async () => {
+      if (typeof window !== "undefined") {
+        // @ts-ignore
+        await import("leaflet.polyline.snakeanim");
 
-      const response = await fetch("/GeoreferenceIndia.tiff");
-      const arrayBuffer = await response.arrayBuffer();
-      const georaster = await parseGeoraster(arrayBuffer);
+        const map = L.map("map", {
+          center: points[0],
+          zoom: 7,
+          zoomControl: false,
+        });
+        mapRef.current = map;
 
-      const layer = new GeoRasterLayer({
-        georaster,
-        opacity: 1,
-        resolution: 256,
-      });
+        L.tileLayer("/tiles/{z}/{x}/{y}.png", {
+          tileSize: 256,
+          minZoom: 0,
+          maxZoom: 10,
+          attribution: "&copy; Datenquelle",
+          noWrap: true,
+        }).addTo(map);
 
-      layer.addTo(map);
-      map.fitBounds(layer.getBounds());
         setMapLoaded(true);
-
+      }
     };
 
-    if (typeof window !== "undefined") initMap();
+    loadMap();
   }, []);
+
 
  // Update Map when stepIndex changes
    useEffect(() => {
      if (!mapRef.current || !mapLoaded) return;
 
      const map = mapRef.current;
-
-     const direction = stepIndex > prevStepRef.current ? "down" : "up";
 
      // Fly to current point
      const currentStep = steps[stepIndex];
@@ -84,9 +78,9 @@ export const RasterMap = () => {
      // Add all markers up to current step
      for (let i = 0; i <= stepIndex; i++) {
        const circle = L.circleMarker(steps[i].coords, {
-         radius: 8,
-         color: "black",
-         fillColor: "red",
+         radius: 12,
+         color: "#f03b20",
+         fillColor: "#f03b20",
          fillOpacity: 0.8,
        });
        circle.addTo(map);
@@ -97,12 +91,10 @@ export const RasterMap = () => {
      const featuresToShow = paths.features.slice(0, stepIndex);
      featuresToShow.forEach((feature) => {
        const geoJsonLayer = L.geoJSON(feature as GeoJSON.Feature, {
-         style: { color: "red", weight: 4 },
+         style: { color: "#f03b20", weight: 4 },
        });
        geoJsonLayer.addTo(map);
-        if (direction === "down") {
        (geoJsonLayer as any).snakeIn();
-       }
        pathLayerRefs.current.push(geoJsonLayer);
      });
    }, [stepIndex, mapLoaded]);
@@ -119,7 +111,21 @@ export const RasterMap = () => {
           width: "100%",
           zIndex: 0,
         }}
-      />
+      >
+      <img
+          src="/India.png"
+          alt="Overlay"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "160%",
+            height: "160%",
+            zIndex: 1, // oder zIndex: 1, je nachdem ob es über oder unter der Karte sein soll
+            pointerEvents: "none", // wichtig, damit die Karte trotzdem interaktiv bleibt
+          }}
+        />
+      </div>
 
       {/* Scroll Steps Overlay */}
       <div
@@ -147,17 +153,23 @@ export const RasterMap = () => {
                   position: "relative",
                 }}
               >
-                <div
-                  style={{
-                    backgroundColor: "rgba(255,255,255,0.8)",
-                    padding: "2rem",
-                    borderRadius: "8px",
-                    border: stepIndex === step.id ? "2px solid red" : "1px solid #ccc",
-                    width: "40%",
-                  }}
-                >
+             <div
+               style={{
+                 backgroundColor: "rgba(240, 59, 32, 0.5)", // richtige rgba-Syntax
+                 padding: "2rem",
+                 width: "40%",
+                 height: "auto", // optional: oder fix, z.B. "60%"
+               }}
+             >
+               <div
+                 style={{
+                   padding: "1rem",
+                   width: "100%", // nutzt volle Breite im Eltern-Div
+                 }}
+               >
                   <h2>{step.label}</h2>
                   <p>Scroll weiter zu {step.label}</p>
+                </div>
                 </div>
               </div>
             </Step>
