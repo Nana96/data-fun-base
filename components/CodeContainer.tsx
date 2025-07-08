@@ -6,17 +6,21 @@ import DetailTypes from "@/types/types";
 export const CodeContainer = ({ code }: Pick<DetailTypes, 'code'>) => {
 const theme = useTheme();
 
-return (
+const steps = code.split(/\r?\n/).filter(line => line.trim() !== '');
+
+  return (
     <Box
-    sx={{
+      sx={{
         background: theme.palette.primary.main,
         minHeight: "100vh",
         p: 4
-    }}
+      }}
     >
-        <Typography variant="body1">
-        {code}
+      {steps.map((step, index) => (
+        <Typography key={index} variant="body1" sx={{ mb: 2 }}>
+          {index + 1}. {step}
         </Typography>
+      ))}
     </Box>
-)
-}
+  );
+};

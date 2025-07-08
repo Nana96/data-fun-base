@@ -68,6 +68,8 @@ export const RasterMap = () => {
      const currentStep = steps[stepIndex];
      map.flyTo(currentStep.coords, 7, { duration: 1.5 });
 
+     map.once("moveend", () => {
+
      // Remove all markers and paths first
      markerRefs.current.forEach((marker) => map.removeLayer(marker));
      markerRefs.current = [];
@@ -96,6 +98,7 @@ export const RasterMap = () => {
        geoJsonLayer.addTo(map);
        (geoJsonLayer as any).snakeIn();
        pathLayerRefs.current.push(geoJsonLayer);
+     });
      });
    }, [stepIndex, mapLoaded]);
 
@@ -142,7 +145,7 @@ export const RasterMap = () => {
             setStepIndex(data);
           }}
         >
-          {steps.map((step) => (
+          {steps.map((step, i) => (
             <Step data={step.id} key={step.id}>
               <div
                 style={{
@@ -168,7 +171,11 @@ export const RasterMap = () => {
                  }}
                >
                   <h2>{step.label}</h2>
-                  <p>Scroll weiter zu {step.label}</p>
+                  {i < steps.length - 1 ? (
+                            <p>Scroll weiter zu {steps[i + 1].label}</p>
+                          ) : (
+                            <p>Ende erreicht</p>
+                          )}
                 </div>
                 </div>
               </div>

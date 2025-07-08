@@ -30,6 +30,6 @@ export const pages = [
       slug: "geo_reference_map",
       title: "Using QGIS Georeference with Leaflet",
       chart: <GeoRef />,
-      code: "Some code or explanation as string or JSX",
+      code: "Some code or explanation as string or JSX\nInitialisiere das Projekt\nInstalliere die Abhängigkeiten",
     },
 ];
