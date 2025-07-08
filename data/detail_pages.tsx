@@ -11,7 +11,7 @@ export const pages = [
   {
     slug: "leaflet_scrolly",
     title: ["Scrollytelling with OpenStreetMap and Leaflet", "hi"],
-          info: ["React", "React-Scrollama", "React-Leaflet", "Leaflet.js", "Material UI", "https://github.com/Nana96/data-fun-base/blob/main/features/maps/LeafletMap.tsx"],
+    info: ["React", "React-Scrollama", "React-Leaflet", "Leaflet.js", "Material UI", "https://github.com/Nana96/data-fun-base/blob/main/features/maps/LeafletMap.tsx"],
     chart: <LeafletScroller />,
     code: [
       <>

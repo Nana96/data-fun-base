@@ -18,7 +18,7 @@ return (
       Approach
     </Typography>
       <ol style={{ paddingLeft: "1.5rem" }}>
-        {code.map((item, i) => (
+        {(code ?? []).map((item, i) => (
           <li key={i}>
             <Typography variant="body1" component="span">
               {item}

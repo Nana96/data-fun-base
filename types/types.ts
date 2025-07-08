@@ -2,10 +2,10 @@ import {type ReactNode} from "react";
 
 // detail layout types
 type DetailTypes = {
-title: ReactNode;
-info: ReactNode;
+title: string[];
+info: string[];
 chart: ReactNode;
-code: ReactNode;
+code: ReactNode[];
 }
 
 // scrollama step types
