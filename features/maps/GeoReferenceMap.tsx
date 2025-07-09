@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Scrollama, Step } from "react-scrollama";
 import paths from "@/data/paths.json";
 import type { Feature, FeatureCollection } from "geojson";
+import { Box } from "@mui/material";
 
 
 const points: [number, number][] = [
@@ -66,7 +67,8 @@ export const RasterMap = () => {
 
      // Fly to current point
      const currentStep = steps[stepIndex];
-     map.flyTo(currentStep.coords, 7, { duration: 1.5 });
+     const zoomLevel = window.innerWidth < 600 ? 6 : 6.6;
+     map.flyTo(currentStep.coords, zoomLevel, { duration: 1.5 });
 
      map.once("moveend", () => {
 
@@ -156,12 +158,15 @@ export const RasterMap = () => {
                   position: "relative",
                 }}
               >
-             <div
-               style={{
-                 backgroundColor: "rgba(240, 59, 32, 0.5)", // richtige rgba-Syntax
+             <Box
+               sx={{
+                 backgroundColor: "rgba(240, 59, 32, 0.5)",
                  padding: "2rem",
-                 width: "40%",
-                 height: "auto", // optional: oder fix, z.B. "60%"
+                 width: {
+                   xs: "100%",  // for mobile
+                   sm: "40%",   // from md (900px)
+                 },
+                 height: "auto",
                }}
              >
                <div
@@ -177,7 +182,7 @@ export const RasterMap = () => {
                             <p>Ende erreicht</p>
                           )}
                 </div>
-                </div>
+                </Box>
               </div>
             </Step>
           ))}
